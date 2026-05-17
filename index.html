@@ -238,7 +238,7 @@ table.data tr:last-child td{border-bottom:none}
     <div class="brand">
       <h1>🔍 ACSC Detective</h1>
       <div class="sub">Check List 2026 — Pro Edition</div>
-      <span class="badge">15 CASES • 3 GROUPS</span>
+      <span class="badge">23 CASES • 4 GROUPS</span>
     </div>
     <div class="search-wrap">
       <input id="search" type="search" placeholder="ค้นหาเคส... (เช่น Romance, ฆ่า, ไฟไหม้)">
@@ -1410,7 +1410,8 @@ function toggleSidebar(force){
 
 function renderSidebar(filter=""){
   const list = document.getElementById('caseList');
-  const groups = {g1:[],g2:[],g3:[]};
+  const groups = {};
+  Object.keys(GROUPS).forEach(k => groups[k] = []);
   const f = filter.trim().toLowerCase();
   CASES.forEach(c=>{
     if(f && !(c.title.toLowerCase().includes(f) || c.id.toLowerCase().includes(f) || c.scenario.toLowerCase().includes(f))) return;
@@ -1654,13 +1655,16 @@ function renderDashboard(){
     <div class="crumb">สรุปความคืบหน้าทั้ง 15 เคส</div>
   `;
   let totalDone=0, totalAll=0;
-  const groupStats = {g1:{d:0,a:0,n:0}, g2:{d:0,a:0,n:0}, g3:{d:0,a:0,n:0}};
+  const groupStats = {};
+  Object.keys(GROUPS).forEach(k => groupStats[k] = {d:0,a:0,n:0});
   CASES.forEach(c=>{
     const cs=getCaseState(c.id);
     const d=cs.checks.filter(x=>x.done).length;
     const a=STD_CHECKLIST.length;
     totalDone+=d; totalAll+=a;
-    groupStats[c.group].d+=d; groupStats[c.group].a+=a; groupStats[c.group].n++;
+    if(groupStats[c.group]){
+      groupStats[c.group].d+=d; groupStats[c.group].a+=a; groupStats[c.group].n++;
+    }
   });
   const opct = Math.round(totalDone/totalAll*100);
 
@@ -1669,28 +1673,23 @@ function renderDashboard(){
       <div class="dash-card">
         <div class="lbl">เคสทั้งหมด</div>
         <div class="val">${CASES.length}</div>
-        <div class="sub">3 กลุ่มคดี</div>
+        <div class="sub">${Object.keys(GROUPS).length} กลุ่มคดี</div>
       </div>
       <div class="dash-card">
         <div class="lbl">ความคืบหน้ารวม</div>
         <div class="val">${opct}%</div>
         <div class="sub">${totalDone} / ${totalAll} รายการ</div>
       </div>
-      <div class="dash-card g1">
-        <div class="lbl">${GROUPS.g1.icon} กลุ่ม 1 — ออนไลน์/ฉ้อโกง</div>
-        <div class="val">${Math.round(groupStats.g1.d/groupStats.g1.a*100)}%</div>
-        <div class="sub">${groupStats.g1.n} เคส</div>
-      </div>
-      <div class="dash-card g2">
-        <div class="lbl">${GROUPS.g2.icon} กลุ่ม 2 — ทั่วไป</div>
-        <div class="val">${Math.round(groupStats.g2.d/groupStats.g2.a*100)}%</div>
-        <div class="sub">${groupStats.g2.n} เคส</div>
-      </div>
-      <div class="dash-card g3">
-        <div class="lbl">${GROUPS.g3.icon} กลุ่ม 3 — ร้ายแรง</div>
-        <div class="val">${Math.round(groupStats.g3.d/groupStats.g3.a*100)}%</div>
-        <div class="sub">${groupStats.g3.n} เคส</div>
-      </div>
+      ${Object.keys(GROUPS).map(gk=>{
+        const g = GROUPS[gk];
+        const s = groupStats[gk];
+        const gpct = s.a > 0 ? Math.round(s.d/s.a*100) : 0;
+        return `<div class="dash-card ${gk}">
+          <div class="lbl">${g.icon} ${g.name}</div>
+          <div class="val">${gpct}%</div>
+          <div class="sub">${s.n} เคส</div>
+        </div>`;
+      }).join('')}
     </div>
 
     <div class="section">
