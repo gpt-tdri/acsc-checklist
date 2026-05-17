@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACSC Detective Check List 2026 — Professional Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6fb;--surface:#fff;--surface-2:#f8fafc;--border:#e5e9f2;
+  --text:#0f172a;--muted:#64748b;--primary:#2563eb;--primary-d:#1d4ed8;
+  --accent:#0ea5e9;--success:#16a34a;--warn:#d97706;--danger:#dc2626;
+  --g1:#3b82f6;--g2:#8b5cf6;--g3:#ef4444;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 4px 12px rgba(15,23,42,.06);
+  --shadow-lg:0 8px 30px rgba(15,23,42,.12);
+  --radius:12px;
+}
+[data-theme="dark"]{
+  --bg:#0b1020;--surface:#121933;--surface-2:#0f1530;--border:#1f2a4a;
+  --text:#e8ecf7;--muted:#94a3b8;--primary:#60a5fa;--primary-d:#3b82f6;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Thai','Sarabun',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;color:inherit}
+a{color:var(--primary);text-decoration:none}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:-310px;top:0;bottom:0;width:300px;z-index:50;transition:left .25s}.sidebar.open{left:0;box-shadow:var(--shadow-lg)}.menu-btn{display:inline-flex!important}}
+
+/* SIDEBAR */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden}
+.brand{padding:18px 18px 12px;border-bottom:1px solid var(--border)}
+.brand h1{margin:0;font-size:16px;font-weight:700;letter-spacing:.3px}
+.brand .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.brand .badge{display:inline-block;font-size:10px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:3px 8px;border-radius:999px;margin-top:8px;font-weight:600}
+.search-wrap{padding:12px;border-bottom:1px solid var(--border)}
+.search-wrap input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);font-size:13px;outline:none}
+.search-wrap input:focus{border-color:var(--primary)}
+.case-list{flex:1;overflow-y:auto;padding:8px 6px}
+.group-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:10px 12px 4px;font-weight:700;display:flex;align-items:center;gap:6px}
+.group-title .dot{width:8px;height:8px;border-radius:50%}
+.case-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;transition:background .15s;margin:1px 4px;border:1px solid transparent}
+.case-item:hover{background:var(--surface-2)}
+.case-item.active{background:linear-gradient(90deg,rgba(37,99,235,.08),transparent);border-color:rgba(37,99,235,.2);font-weight:600}
+.case-item .code{font-size:10px;color:var(--muted);font-weight:700;min-width:30px}
+.case-item .ttl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.case-item .pct{font-size:10px;color:var(--muted);font-weight:600}
+.progress-mini{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:3px;width:36px}
+.progress-mini > i{display:block;height:100%;background:linear-gradient(90deg,var(--success),var(--primary));transition:width .3s}
+.sidebar-footer{padding:12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* MAIN */
+.main{padding:0;min-width:0}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+[data-theme="dark"] .topbar{background:rgba(18,25,51,.85)}
+.menu-btn{display:none;background:var(--surface-2);border:1px solid var(--border);width:38px;height:38px;border-radius:10px;cursor:pointer;align-items:center;justify-content:center}
+.case-meta{flex:1;min-width:0}
+.case-meta h2{margin:0;font-size:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;font-size:11px;padding:3px 8px;border-radius:999px;font-weight:600}
+.tag.g1{background:rgba(59,130,246,.12);color:var(--g1)}
+.tag.g2{background:rgba(139,92,246,.12);color:var(--g2)}
+.tag.g3{background:rgba(239,68,68,.12);color:var(--g3)}
+.case-meta .crumb{font-size:12px;color:var(--muted);margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--surface-2);transform:translateY(-1px)}
+.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn.primary:hover{background:var(--primary-d)}
+.btn.danger{color:var(--danger);border-color:rgba(220,38,38,.3)}
+.btn.danger:hover{background:rgba(220,38,38,.08)}
+.btn .ico{font-size:14px}
+.icon-btn{width:38px;height:38px;padding:0;justify-content:center;font-size:16px}
+
+/* CONTENT */
+.content{padding:20px 24px 60px;max-width:1200px;margin:0 auto}
+.progress-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.progress-bar .stat{font-size:13px}
+.progress-bar .stat b{font-size:20px;display:block;color:var(--primary)}
+.progress-bar .bar{flex:1;height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden;border:1px solid var(--border)}
+.progress-bar .bar > i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6,#a855f7);transition:width .4s}
+
+.section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:18px;box-shadow:var(--shadow);overflow:hidden}
+.section > h3{margin:0;padding:14px 18px;font-size:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface-2)}
+.section > h3 .ix{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-size:12px;font-weight:700}
+.section .body{padding:16px 18px}
+.scenario{font-size:14px;line-height:1.75;color:var(--text)}
+.scenario .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px;display:block}
+
+/* CHECKLIST */
+.checklist{list-style:none;padding:0;margin:0}
+.chk-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start}
+.chk-item:last-child{border-bottom:none}
+.chk-box{flex-shrink:0;margin-top:2px;width:22px;height:22px;border:2px solid var(--border);border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;background:var(--surface);transition:all .15s}
+.chk-box:hover{border-color:var(--primary)}
+.chk-box.checked{background:var(--success);border-color:var(--success);color:#fff}
+.chk-box.checked::after{content:"✓";font-weight:bold;font-size:14px}
+.chk-text{flex:1}
+.chk-text .title{font-weight:600;font-size:14px}
+.chk-text .desc{font-size:13px;color:var(--muted);margin-top:2px}
+.chk-item.done .title{text-decoration:line-through;color:var(--muted)}
+.chk-note{margin-top:6px;width:100%;min-height:38px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);font-size:12px;resize:vertical;outline:none}
+.chk-note:focus{border-color:var(--primary)}
+.chk-note:placeholder-shown{background:transparent;border-style:dashed}
+.chk-actions{display:flex;gap:6px;margin-top:6px}
+.mini-btn{font-size:11px;background:transparent;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px}
+.mini-btn:hover{background:var(--surface-2);color:var(--text)}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+table.data{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface)}
+table.data th{background:var(--surface-2);padding:9px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;border-bottom:1px solid var(--border)}
+table.data td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data td[contenteditable]:focus{outline:2px solid var(--primary);outline-offset:-2px;background:rgba(37,99,235,.04)}
+table.data tr:last-child td{border-bottom:none}
+.row-actions{white-space:nowrap;text-align:right;width:60px}
+.del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;opacity:.6;padding:4px 6px;border-radius:4px}
+.del-btn:hover{color:var(--danger);opacity:1;background:rgba(220,38,38,.08)}
+.add-row{margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
+.add-row:hover{border-color:var(--primary);color:var(--primary);background:rgba(37,99,235,.04)}
+
+/* MINI REPORT */
+.mini-report{background:linear-gradient(135deg,rgba(37,99,235,.06),rgba(168,85,247,.06));border-left:3px solid var(--primary);padding:14px 18px;border-radius:0 8px 8px 0}
+.mini-report textarea{width:100%;min-height:120px;border:none;background:transparent;resize:vertical;font-size:14px;line-height:1.6;outline:none;color:var(--text)}
+
+/* DASHBOARD */
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.dash-card .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.dash-card .val{font-size:24px;font-weight:700;margin-top:4px}
+.dash-card.g1 .val{color:var(--g1)}
+.dash-card.g2 .val{color:var(--g2)}
+.dash-card.g3 .val{color:var(--g3)}
+.dash-card .sub{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;transform:translateY(20px);transition:all .25s;z-index:999;pointer-events:none;box-shadow:var(--shadow-lg)}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* TABS */
+.view-tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:10px;border:1px solid var(--border)}
+.view-tabs button{background:transparent;border:none;padding:7px 14px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--muted);font-weight:500}
+.view-tabs button.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);font-weight:600}
+
+.disclaimer{padding:10px 14px;background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.25);border-radius:10px;font-size:12px;color:var(--warn);margin-bottom:18px;display:flex;gap:8px;align-items:center}
+
+/* PRINT */
+@media print{
+  .sidebar,.topbar .icon-btn,.topbar .btn:not(.print-keep),.menu-btn,.add-row,.del-btn,.row-actions,#toast,.view-tabs,.disclaimer{display:none!important}
+  .app{grid-template-columns:1fr}
+  .topbar{position:static;border:none;padding:0 0 12px}
+  .content{padding:0;max-width:none}
+  .section{break-inside:avoid;border:1px solid #ccc;box-shadow:none;margin-bottom:12px}
+  body{background:#fff;color:#000}
+  .chk-box.checked{background:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body data-theme="light">
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <h1>🔍 ACSC Detective</h1>
+      <div class="sub">Check List 2026 — Pro Edition</div>
+      <span class="badge">15 CASES • 3 GROUPS</span>
+    </div>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="ค้นหาเคส... (เช่น Romance, ฆ่า, ไฟไหม้)">
+    </div>
+    <nav class="case-list" id="caseList"></nav>
+    <div class="sidebar-footer">
+      <span id="overallPct">0% เสร็จ</span>
+      <a href="#" id="dashLink">📊 Dashboard</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="menu-btn icon-btn" onclick="toggleSidebar()">☰</button>
+      <div class="case-meta" id="caseMeta">
+        <h2>เลือกเคสจากเมนูด้านซ้าย</h2>
+        <div class="crumb">หรือดู Dashboard ภาพรวม</div>
+      </div>
+      <button class="btn icon-btn" id="themeBtn" title="สลับธีม" onclick="toggleTheme()">🌙</button>
+      <button class="btn" onclick="exportCurrentJSON()" title="ส่งออกเคสนี้เป็น JSON">📦 Export</button>
+      <button class="btn" onclick="importJSON()" title="นำเข้าข้อมูล">📥 Import</button>
+      <button class="btn primary print-keep" onclick="window.print()">🖨️ พิมพ์ / PDF</button>
+      <button class="btn danger" onclick="resetCurrent()">↺ รีเซ็ต</button>
+    </div>
+    <div class="content" id="content">
+      <!-- rendered by JS -->
+    </div>
+  </main>
+</div>
+<div id="toast"></div>
+<input type="file" id="fileInput" accept=".json" style="display:none">
+
+<script>
+/* =========================================================
+   ACSC Detective Check List 2026 — Professional Edition
+   Single-file Web App — Vanilla JS + localStorage
+   ========================================================= */
+
+// ---------- STANDARD CHECKLIST (10 items) ----------
+const STD_CHECKLIST = [
+  {t:"รับเรื่องและกำหนดโจทย์", d:"ระบุเหตุ, ความเสียหาย, พื้นที่เกิดเหตุ, เป้าหมายการสืบสวน"},
+  {t:"แยกบุคคลที่เกี่ยวข้อง", d:"ผู้เสียหาย / ผู้ต้องสงสัย / พยาน / ผู้พบเห็น / ผู้เกี่ยวข้องทางอ้อม"},
+  {t:"แยกบัญชี เบอร์ อุปกรณ์ และช่องทาง", d:"รวบรวมเลขบัญชี เบอร์โทร โซเชียล อีเมล อุปกรณ์ ยานพาหนะ"},
+  {t:"สร้าง Timeline", d:"เรียงเหตุการณ์ก่อน-ระหว่าง-หลังเกิดเหตุ พร้อมเวลาที่อ้างอิงได้"},
+  {t:"ทำ Evidence Inventory", d:"กำหนดแหล่งที่มา ผู้ครอบครอง และสถานะความครบถ้วนของพยานหลักฐาน"},
+  {t:"ตั้งสมมติฐาน", d:"ตั้งอย่างน้อย 3 แนวทาง พร้อมข้อสนับสนุนและข้อโต้แย้ง"},
+  {t:"ตรวจสอบความเชื่อมโยง", d:"เชื่อม คน-เวลา-สถานที่-บัญชี-อุปกรณ์-พฤติการณ์"},
+  {t:"กำหนดงานต่อไป", d:"ระบุผู้รับผิดชอบ ลำดับความเร่งด่วน และวันครบกำหนด"},
+  {t:"สรุปรายงาน 1 หน้า", d:"สรุปข้อเท็จจริง ประเด็นสืบสวน ความเสี่ยง และข้อเสนอแนะ"},
+  {t:"ตรวจทานความถูกต้อง", d:"ตรวจแหล่งอ้างอิง ความสอดคล้องของเวลา และข้อจำกัดของข้อมูล"}
+];
+
+// ---------- CASE DATA ----------
+const GROUPS = {
+  g1:{name:"คดีออนไลน์ / ฉ้อโกง",color:"g1",icon:"💻"},
+  g2:{name:"คดีอาชญากรรมทั่วไป",color:"g2",icon:"🏘️"},
+  g3:{name:"คดีร้ายแรง / คดีซับซ้อน",color:"g3",icon:"⚠️"}
+};
+
+
+const CASES = [
+  // ========== กลุ่ม 1: คดีออนไลน์/ฉ้อโกง ==========
+  {
+    id:"C01",group:"g1",title:"หลอกขายโทรศัพท์มือถือออนไลน์",
+    scenario:"ผู้เสียหายพบโพสต์ขายโทรศัพท์ราคาถูกบน Facebook ติดต่อผ่าน Line โอนเงิน 18,500 บาท หลังโอนเงินผู้ขายปิดการติดต่อและไม่ส่งสินค้า หลักฐานตั้งต้นมีลิงก์โพสต์ แชท สลิปโอน บัญชีรับเงิน และเบอร์โทร",
+    persons:[
+      ["ผู้เสียหาย A","ผู้ร้องทุกข์","มีสลิปโอนและแชท"],
+      ["เพจ SmartPhone Outlet","ช่องทางประกาศขาย","ต้องตรวจประวัติเพจ"],
+      ["บัญชีรับเงิน นาย ข.","ผู้รับโอน","ต้องตรวจ KYC / รายการเดินบัญชี"],
+      ["พยาน B","ผู้เคยซื้อ/ถูกหลอก","พบจากคอมเมนต์ใต้โพสต์"]
+    ],
+    channels:[
+      ["Facebook Page","SmartPhone Outlet","โพสต์ขายโทรศัพท์"],
+      ["Line ID","@phone-sale88","ใช้รับคำสั่งซื้อ"],
+      ["บัญชีธนาคาร","xxx-x-12345-x","รับเงิน 18,500 บาท"],
+      ["เบอร์โทร","08x-xxx-4455","ปรากฏในแชท / ประกาศ"]
+    ],
+    timeline:[
+      ["08:30","ผู้เสียหายเห็นโพสต์ขายโทรศัพท์"],
+      ["08:45","ติดต่อ Line และสอบถามราคา"],
+      ["09:10","ผู้ขายส่งเลขบัญชี"],
+      ["09:25","ผู้เสียหายโอนเงิน 18,500 บาท"],
+      ["10:30","ผู้ขายอ้างกำลังจัดส่ง"],
+      ["13:00","ผู้ขายบล็อก Line / ลบโพสต์"]
+    ],
+    evidence:[
+      ["ลิงก์โพสต์ Facebook","ภาพหน้าจอ / URL","สำคัญ","ต้องเก็บ URL และเวลา"],
+      ["แชท Line","ภาพหน้าจอ / Export","สำคัญ","ต้องเห็น Line ID"],
+      ["สลิปโอน","ไฟล์ภาพ","สำคัญ","ตรวจเลขอ้างอิง"],
+      ["ข้อมูลบัญชีรับเงิน","ธนาคาร","รอขอข้อมูล","ต้องดำเนินตามอำนาจหน้าที่"]
+    ],
+    hypothesis:[
+      ["บัญชีรับเงินเป็นบัญชีม้า","มีพฤติกรรมรับโอนแล้วถอนเร็ว","ตรวจรายการเดินบัญชี / ผู้เปิดบัญชี"],
+      ["เพจถูกสร้างเพื่อหลอกขายซ้ำ","ราคาต่ำผิดปกติและลบโพสต์เร็ว","ตรวจประวัติเพจ / เหยื่อรายอื่น"],
+      ["ผู้ใช้ Line เชื่อมกับเบอร์โทรจริง","มีเบอร์ในประกาศ","ตรวจข้อมูลผู้ลงทะเบียนตามขั้นตอนกฎหมาย"]
+    ],
+    actions:[
+      ["เก็บหลักฐานดิจิทัลแบบมีเวลา","ผู้รับเรื่อง","สูง","เสร็จ","จัดเก็บภาพ / URL / เวลา"],
+      ["ทำหนังสือขอข้อมูลบัญชี","พนักงานสอบสวน","สูง","กำลังดำเนินการ","ระบุเลขอ้างอิงสลิป"],
+      ["ตรวจเพจ / เบอร์ซ้ำกับคดีอื่น","ชุดสืบสวน","กลาง","รอดำเนินการ","ค้นด้วยคำสำคัญ / บัญชี / เบอร์"],
+      ["สรุป Timeline และแผนขยายผล","ผู้วิเคราะห์","สูง","เสร็จ","ใช้ประกอบรายงาน"]
+    ],
+    report:"คดีมีรูปแบบหลอกขายสินค้าออนไลน์ชัดเจน จุดสำคัญคือการพิสูจน์ความเชื่อมโยงระหว่างเพจ Line ID บัญชีรับเงิน และเบอร์โทร ควรเร่งเก็บหลักฐานดิจิทัลก่อนถูกลบ และขอข้อมูลบัญชีเพื่อขยายผลไปยังผู้เกี่ยวข้อง"
+  },
+  {
+    id:"C02",group:"g1",title:"Romance Scam หลอกให้รักแล้วชวนลงทุน",
+    scenario:"ผู้เสียหายรู้จักคนแปลกหน้าผ่าน Facebook อ้างเป็นวิศวกรน้ำมันต่างประเทศ คุยกัน 2 เดือนสร้างความสัมพันธ์ ก่อนชักชวนลงทุนแพลตฟอร์มเทรดทองคำ โอนสะสมรวม 1,250,000 บาท เมื่อขอถอนกลับถูกเรียกค่าธรรมเนียมเพิ่มและตัดการติดต่อ",
+    persons:[
+      ["ผู้เสียหาย A","ผู้ร้องทุกข์","หญิง อายุ 42 ปี"],
+      ["บัญชี Facebook \"Mark Stevenson\"","ผู้ต้องสงสัย","ใช้รูปต่างประเทศ น่าจะปลอม"],
+      ["แพลตฟอร์มลงทุน goldmax-pro","ช่องทางหลอกลงทุน","เว็บไซต์น่าจะปลอม"],
+      ["บัญชีรับเงิน 5 บัญชี","ผู้รับโอน","สงสัยเป็นบัญชีม้า"]
+    ],
+    channels:[
+      ["Facebook","Mark Stevenson","ใช้รูปฝรั่งจาก Google"],
+      ["Line","@goldmax-vip","แอดมินแพลตฟอร์ม"],
+      ["เว็บไซต์","goldmax-pro.cc","แพลตฟอร์มเทรดปลอม"],
+      ["บัญชีธนาคาร","5 บัญชีต่างชื่อ","รับโอนรวม 1.25 ล้าน"]
+    ],
+    timeline:[
+      ["01 ก.ค.","แอดเฟรนด์ทาง Facebook"],
+      ["15 ก.ค.","คุยลึกถึงเรื่องชีวิตและความรู้สึก"],
+      ["01 ส.ค.","ชวนลงทุนแพลตฟอร์มทองคำ"],
+      ["05 ส.ค.","โอนครั้งแรก 50,000 บาท"],
+      ["20 ส.ค.","โอนสะสมจนครบ 1.25 ล้าน"],
+      ["28 ส.ค.","ขอถอนเงิน ถูกเรียกค่าธรรมเนียม"],
+      ["02 ก.ย.","ตัดการติดต่อ ไม่สามารถถอนได้"]
+    ],
+    evidence:[
+      ["แชท Facebook / Line","Export ทั้งหมด","สำคัญมาก","ต้องเก็บก่อนถูกลบ"],
+      ["สลิปโอน 5 บัญชี","ไฟล์ภาพ","สำคัญ","มีเลขอ้างอิงครบ"],
+      ["URL แพลตฟอร์มลงทุน","Screenshot + WHOIS","สำคัญ","ตรวจเจ้าของโดเมน"],
+      ["รูปโปรไฟล์ Mark","Reverse Image Search","สำคัญ","พิสูจน์ตัวตนปลอม"]
+    ],
+    hypothesis:[
+      ["เป็นแก๊ง Romance Scam ต่างชาติ","ใช้รูปฝรั่ง คุยภาษาแปลก","ตรวจ IP / ภาษาที่ใช้"],
+      ["บัญชีรับเงินเป็นบัญชีม้าในไทย","หลายบัญชีต่างชื่อ","ขอ KYC ทุกบัญชี"],
+      ["มีผู้เสียหายรายอื่น","แพลตฟอร์มมีเหยื่อหลายราย","ค้นในระบบ Anti-Online-Scam"]
+    ],
+    actions:[
+      ["อายัดบัญชีทั้ง 5 ทันที","พนักงานสอบสวน","สูงมาก","กำลังดำเนินการ","ใช้ระบบ AOC"],
+      ["Reverse image search รูปโปรไฟล์","ชุดสืบสวน","สูง","เสร็จ","พบเป็นรูปวิศวกรในต่างประเทศ"],
+      ["ตรวจ WHOIS โดเมน","นักวิเคราะห์","กลาง","รอดำเนินการ","ดูผู้จดทะเบียน"],
+      ["ค้นเหยื่อรายอื่น","ชุดสืบสวน","สูง","กำลังดำเนินการ","อาจเชื่อมหลายคดี"]
+    ],
+    report:"คดี Romance Scam ผสมการลงทุนปลอม มูลค่าความเสียหายสูง รูปแบบเข้าข่ายขบวนการต่างชาติใช้บัญชีม้าในประเทศ ต้องเร่งอายัดบัญชีและขยายผลร่วมกับ AOC / ปอท."
+  },
+  {
+    id:"C03",group:"g1",title:"Call Center อ้างธนาคารและเจ้าหน้าที่รัฐ",
+    scenario:"ผู้เสียหายได้รับสายอ้างเป็นพนักงานธนาคารแจ้งบัญชีพัวพันคดีฟอกเงิน โอนสายให้ \"ตำรวจ\" ข่มขู่และให้โอนเงินตรวจสอบ 850,000 บาทเข้าบัญชีกลาง หลังโอนพบว่าเป็นแก๊ง Call Center",
+    persons:[
+      ["ผู้เสียหาย C","ผู้ร้องทุกข์","ผู้สูงอายุ 65 ปี"],
+      ["ผู้อ้างเป็นพนักงานธนาคาร","ผู้ต้องสงสัย","เสียงไทย"],
+      ["ผู้อ้างเป็นตำรวจ","ผู้ต้องสงสัย","ใช้ชื่อยศไม่ตรงในระบบ"],
+      ["บัญชีรับโอน","ผู้รับโอน","น่าจะเป็นบัญชีม้า"]
+    ],
+    channels:[
+      ["เบอร์โทรเข้า","+66 2 xxx xxxx","สายจาก VOIP"],
+      ["Line VDO Call","ผู้สวมเครื่องแบบ","ใช้ข่มขู่"],
+      ["บัญชีธนาคาร","xxx-x-99999-x","รับเงิน 850,000"],
+      ["เอกสารปลอม","หมายจับ / หนังสือ DSI","ส่งทาง Line"]
+    ],
+    timeline:[
+      ["09:15","รับสายอ้างพนักงานธนาคาร"],
+      ["09:20","ถูกโอนสายให้ \"ตำรวจ\""],
+      ["09:35","ส่งเอกสารหมายจับปลอม"],
+      ["10:10","VDO Call กับผู้สวมเครื่องแบบปลอม"],
+      ["11:00","โอนเงิน 850,000 บาท"],
+      ["13:30","ลูกหลานทราบเรื่อง รีบแจ้งความ"]
+    ],
+    evidence:[
+      ["บันทึกการโทร","ค่ายมือถือ","สำคัญ","ขอจาก Operator"],
+      ["ภาพหน้าจอ Line","ผู้เสียหาย","สำคัญ","มีเอกสารปลอม"],
+      ["สลิปโอน","ไฟล์ภาพ","สำคัญ","ครบเลขอ้างอิง"],
+      ["เอกสารหมายจับปลอม","ส่งทาง Line","สำคัญ","ตรวจของจริงกับ DSI"]
+    ],
+    hypothesis:[
+      ["แก๊ง Call Center ฐานเขมร / เมียนมา","ใช้ VOIP เลียนแบบเบอร์ไทย","ขอข้อมูลจาก Operator"],
+      ["บัญชีรับเงินเป็นบัญชีม้า","ถอนเงินทันที","ตรวจ ATM withdraw"],
+      ["มีคนในเครือข่ายให้ข้อมูลผู้เสียหาย","รู้ชื่อ / เลขบัตรประชาชน","ตรวจ Data Leak"]
+    ],
+    actions:[
+      ["อายัดบัญชีปลายทาง","พนักงานสอบสวน","สูงมาก","เสร็จ","อายัดทันที"],
+      ["ขอ CDR เบอร์ที่โทรเข้า","พนักงานสอบสวน","สูง","กำลังดำเนินการ","ระบุที่ตั้ง VOIP"],
+      ["แจ้ง CCIB / AOC","หัวหน้าชุด","สูง","เสร็จ","ยื่นแบบฟอร์ม"],
+      ["ตรวจสอบ ATM ที่ถอน","ชุดสืบสวน","กลาง","รอดำเนินการ","ขอภาพกล้อง CCTV"]
+    ],
+    report:"คดี Call Center รูปแบบ 2 ขั้นตอน (ธนาคาร → ตำรวจ) เน้นข่มขู่ผู้สูงอายุ ความเสียหายสูง ต้องเร่งอายัดและประสาน CCIB / AOC เพื่อขยายผลถึงต้นน้ำในต่างประเทศ"
+  },
+  {
+    id:"C04",group:"g1",title:"แอปเงินกู้ปลอมและค่าธรรมเนียมลวง",
+    scenario:"ผู้เสียหายโหลดแอปเงินกู้จากโฆษณา TikTok สมัครและได้รับการอนุมัติยอด 80,000 บาท แต่ถูกเรียกค่าธรรมเนียม / ภาษี / ค่าประกันรวม 35,000 บาทก่อนรับเงิน หลังโอนไม่ได้รับเงินจริงและถูกบล็อก",
+    persons:[
+      ["ผู้เสียหาย D","ผู้ร้องทุกข์","พนักงานบริษัท"],
+      ["แอป \"Quick Loan TH\"","ช่องทางหลอก","ไม่อยู่ในรายชื่อ ธปท."],
+      ["แอดมิน Line","ผู้ต้องสงสัย","ใช้ภาษาไทยปนต่างประเทศ"],
+      ["บัญชีรับค่าธรรมเนียม","ผู้รับโอน","3 บัญชี ต่างชื่อ"]
+    ],
+    channels:[
+      ["TikTok Ads","หน้าโฆษณา","ลิงก์ดาวน์โหลด"],
+      ["APK ภายนอก Play Store","Quick Loan TH","ไม่ผ่าน Store"],
+      ["Line","@quickloan-th","แอดมิน"],
+      ["บัญชีธนาคาร","3 บัญชี","รับค่าธรรมเนียม 35,000"]
+    ],
+    timeline:[
+      ["วันที่ 1","เห็นโฆษณา TikTok"],
+      ["วันที่ 1","โหลด APK และสมัคร"],
+      ["วันที่ 2","อนุมัติวงเงิน 80,000"],
+      ["วันที่ 2","โอนค่าธรรมเนียม 5,000"],
+      ["วันที่ 3","อ้างขอภาษี 15,000"],
+      ["วันที่ 4","อ้างค่าประกัน 15,000"],
+      ["วันที่ 5","ขอเงินคืน → ถูกบล็อก"]
+    ],
+    evidence:[
+      ["ไฟล์ APK","มือถือผู้เสียหาย","สำคัญ","ส่งวิเคราะห์ Permission"],
+      ["สลิปโอน 3 ครั้ง","ไฟล์ภาพ","สำคัญ","รวม 35,000"],
+      ["URL โฆษณา TikTok","Screenshot","สำคัญ","แจ้ง Platform ปิด"],
+      ["แชท Line","Export","สำคัญ","มีคำขู่บังคับโอนต่อ"]
+    ],
+    hypothesis:[
+      ["APK เป็น Malware ดูดข้อมูล","ขอ Accessibility Permission","ส่งให้ ETDA / NCSA"],
+      ["บัญชีเป็นเครือข่ายม้า","ต่างชื่อ ต่างธนาคาร","ตรวจรายการเดินบัญชี"],
+      ["โฆษณามาจากเอเจนซีต่างประเทศ","Ads ใช้ภาษาไทยแปลก","ขอข้อมูล Ads ID"]
+    ],
+    actions:[
+      ["อายัดบัญชี 3 บัญชี","พนักงานสอบสวน","สูง","เสร็จ","ผ่านระบบ AOC"],
+      ["ส่ง APK วิเคราะห์","นักวิเคราะห์","สูง","กำลังดำเนินการ","ดู Permission และ C2"],
+      ["แจ้ง TikTok ปิดโฆษณา","ฝ่ายประสาน","กลาง","เสร็จ","ป้องกันเหยื่อใหม่"],
+      ["รวมเหยื่อรายอื่น","ชุดสืบสวน","สูง","กำลังดำเนินการ","คาดว่ามีหลายราย"]
+    ],
+    report:"คดีแอปเงินกู้ปลอมพร้อม Malware มีลักษณะหลอกค่าธรรมเนียมล่วงหน้า ต้องประสานปิดโฆษณา / ปิดแอป และวิเคราะห์ APK เพื่อตัดวงจร C2 ของผู้กระทำ"
+  },
+  {
+    id:"C05",group:"g1",title:"หลอกลงทุนคริปโตผ่านกลุ่ม Telegram",
+    scenario:"ผู้เสียหายถูกชวนเข้ากลุ่ม Telegram \"Crypto Insider VIP\" มีโค้ชสอนเทรด และมีกราฟกำไรปลอม ถูกชักชวนเติม USDT เข้าแพลตฟอร์มที่เปิดเฉพาะกลุ่ม รวม 720,000 บาท เมื่อจะถอนถูกเรียก \"ภาษี blockchain\" เพิ่ม",
+    persons:[
+      ["ผู้เสียหาย E","ผู้ร้องทุกข์","ผู้สนใจคริปโตมือใหม่"],
+      ["\"โค้ชเจมส์\"","ผู้ต้องสงสัยหลัก","ใช้ภาพคนดัง"],
+      ["แอดมินกลุ่ม","ผู้ต้องสงสัย","หลายบัญชี"],
+      ["สมาชิกในกลุ่ม","น่าสงสัย","อาจเป็น Bot โชว์กำไร"]
+    ],
+    channels:[
+      ["Telegram Group","Crypto Insider VIP","กลุ่มปิด"],
+      ["เว็บแพลตฟอร์ม","cryptoinsider-pro.io","แดชบอร์ดปลอม"],
+      ["Wallet USDT","TRC20 หลายเลข","รับเงินรวม"],
+      ["Line / IG","ช่องเสริม","ส่งภาพกำไร"]
+    ],
+    timeline:[
+      ["สัปดาห์ 1","เห็นโฆษณา IG → เข้ากลุ่ม"],
+      ["สัปดาห์ 2","ดูโค้ชสอนเทรด"],
+      ["สัปดาห์ 3","เติม USDT 100,000"],
+      ["สัปดาห์ 4","ระบบโชว์กำไร 30%"],
+      ["สัปดาห์ 5","เติมเพิ่มรวม 720,000"],
+      ["สัปดาห์ 6","ขอถอน → ถูกเรียกภาษี"],
+      ["สัปดาห์ 7","กลุ่มปิด / เว็บล่ม"]
+    ],
+    evidence:[
+      ["แชทกลุ่ม Telegram","Export","สำคัญ","มีกำไรปลอม"],
+      ["URL แพลตฟอร์ม","Screenshot","สำคัญ","ตรวจ WHOIS"],
+      ["TX Hash USDT","Blockchain","สำคัญมาก","Trace on-chain"],
+      ["รูปโค้ช","Reverse Search","สำคัญ","น่าจะเป็นรูปบุคคลอื่น"]
+    ],
+    hypothesis:[
+      ["เครือข่ายต่างประเทศ","ภาษาไทยแปลก / โดเมน .io","Trace on-chain"],
+      ["สมาชิกในกลุ่มเป็น Bot","ตอบคล้ายกัน","ดู Pattern ข้อความ"],
+      ["Wallet ปลายทางเชื่อม Exchange ต่างประเทศ","Trace USDT ไปสุดที่ Exchange","ขอข้อมูลผ่าน MLAT"]
+    ],
+    actions:[
+      ["Trace USDT on-chain","นักวิเคราะห์","สูงมาก","กำลังดำเนินการ","ใช้เครื่องมือ Chain Analysis"],
+      ["WHOIS / Hosting โดเมน","นักวิเคราะห์","สูง","เสร็จ","พบ Host ต่างประเทศ"],
+      ["แจ้ง ก.ล.ต. / DSI","หัวหน้าชุด","สูง","เสร็จ","ส่งหนังสือ"],
+      ["รวมผู้เสียหาย","ชุดสืบสวน","สูง","กำลังดำเนินการ","อาจมีหลายราย"]
+    ],
+    report:"คดี Pig Butchering สาย Crypto ใช้กลุ่มปิดและกราฟปลอมหลอกลงทุน จุดสำคัญคือการ Trace on-chain เพื่อหาปลายทาง Exchange และเชื่อมกับเครือข่าย MLAT"
+  },
+  // ========== กลุ่ม 2: คดีอาชญากรรมทั่วไป ==========
+  {
+    id:"C06",group:"g2",title:"ลักทรัพย์ในที่พัก / หอพัก",
+    scenario:"หอพัก 5 ชั้น ห้อง 305 ถูกงัดประตูช่วงกลางวัน ทรัพย์สินที่หาย: โน้ตบุ๊ก 1 เครื่อง, นาฬิกา 1 เรือน, เงินสด 12,000 บาท ผู้เสียหายไม่อยู่ห้อง 09:00-17:00 ระบบกล้อง CCTV ครอบคลุมทางเดินและประตูหลัก",
+    persons:[
+      ["ผู้เสียหาย F","ผู้ร้องทุกข์","อาศัยห้อง 305"],
+      ["ผจก. หอพัก","ผู้ดูแล","มีกุญแจสำรอง"],
+      ["รปภ. กะกลางวัน","พยาน","ดูจุดทางเข้า"],
+      ["ผู้พักอาศัยใกล้เคียง","พยาน","ห้อง 304, 306"]
+    ],
+    channels:[
+      ["CCTV ทางเดิน ชั้น 3","หอพัก","ภาพคนเดินผ่าน"],
+      ["CCTV ประตูหลัก","หอพัก","ภาพคนเข้าออก"],
+      ["Key Card Log","หอพัก","ตรวจการเข้าออก"],
+      ["รถจอดในลานจอด","CCTV","ดูป้ายทะเบียน"]
+    ],
+    timeline:[
+      ["08:55","ผู้เสียหายออกจากห้อง"],
+      ["09:00","ล็อกประตูปกติ"],
+      ["12:30","พบประตูถูกงัด (ตามเวลา CCTV)"],
+      ["17:00","ผู้เสียหายกลับห้องพบทรัพย์หาย"],
+      ["17:15","แจ้ง ผจก. หอพัก"],
+      ["18:00","แจ้งความ"]
+    ],
+    evidence:[
+      ["รอยงัดประตู","ห้อง 305","สำคัญ","ถ่ายภาพ / DNA"],
+      ["CCTV 09:00-17:00","หอพัก","สำคัญมาก","ขอครบทุกกล้อง"],
+      ["Key Card Log","หอพัก","สำคัญ","ตรวจคนเข้าออก"],
+      ["รอยนิ้วมือ","ลูกบิด / กรอบประตู","สำคัญ","งานพิสูจน์หลักฐาน"]
+    ],
+    hypothesis:[
+      ["คนรู้จักภายในหอพัก","รู้ว่าผู้เสียหายไม่อยู่","ตรวจ Key Card Log"],
+      ["มืออาชีพภายนอก","งัดเร็ว ไม่ทิ้งร่องรอยมาก","ดูเทคนิคการงัด"],
+      ["มีคนช่วยเปิดประตูหลัก","CCTV เห็นคนแปลกหน้า","สอบ รปภ."]
+    ],
+    actions:[
+      ["เก็บรอยนิ้วมือ / DNA","พิสูจน์หลักฐาน","สูง","กำลังดำเนินการ","ที่ลูกบิดและกรอบ"],
+      ["รวบรวม CCTV ทุกกล้อง","พนักงานสอบสวน","สูงมาก","เสร็จ","ก่อนถูก overwrite"],
+      ["สอบปากคำเพื่อนบ้าน","ชุดสืบสวน","สูง","กำลังดำเนินการ","ห้อง 304, 306"],
+      ["ตรวจร้านรับซื้อของ","ชุดสืบสวน","กลาง","รอดำเนินการ","หาโน้ตบุ๊ก / นาฬิกา"]
+    ],
+    report:"คดีลักทรัพย์มีรอยงัดชัดเจนและ CCTV ครอบคลุม จุดสำคัญคือการเทียบ CCTV กับ Key Card Log เพื่อระบุผู้ต้องสงสัย และตรวจสอบร้านรับซื้อของในรัศมีใกล้เคียง"
+  },
+  {
+    id:"C07",group:"g2",title:"รถจักรยานยนต์หาย",
+    scenario:"จยย. Honda Click 160 สีดำ ทะเบียน 1กท-1234 หายจากลานจอดหน้าห้างเวลากลางวัน ผู้เสียหายล็อคคอและล็อคจานเบรค ลานจอดมี CCTV และ รปภ. พบรถถูกขนขึ้นรถกระบะ",
+    persons:[
+      ["ผู้เสียหาย G","ผู้ร้องทุกข์","เจ้าของรถ"],
+      ["รปภ. ลานจอด","พยาน","อยู่ในจุดเข้าออก"],
+      ["ผู้ขับกระบะที่ใช้ขน","ผู้ต้องสงสัย","2-3 คน"],
+      ["พ่อค้าแม่ค้าใกล้เคียง","พยาน","อาจเห็นเหตุการณ์"]
+    ],
+    channels:[
+      ["CCTV ลานจอด","ห้าง","หลายมุม"],
+      ["CCTV ทางออกห้าง","ห้าง","ภาพรถกระบะออก"],
+      ["CCTV ตามเส้นทาง","ตำรวจจราจร","ขอจาก Smart City"],
+      ["AVL ป้ายทะเบียนกระบะ","ระบบจราจร","ตรวจเส้นทาง"]
+    ],
+    timeline:[
+      ["10:30","จอดรถที่ลานจอดห้าง"],
+      ["10:32","ล็อคคอ + ล็อคจาน"],
+      ["12:10","CCTV เห็นกระบะเข้าจอดข้างรถ"],
+      ["12:14","ขนรถขึ้นกระบะ ใช้เวลา 4 นาที"],
+      ["12:18","กระบะออกจากลานจอด"],
+      ["14:00","ผู้เสียหายกลับมาพบรถหาย"]
+    ],
+    evidence:[
+      ["CCTV จุดเกิดเหตุ","ห้าง","สำคัญมาก","ภาพชัด เห็นใบหน้า"],
+      ["CCTV ทางออก","ห้าง","สำคัญ","ป้ายทะเบียนกระบะ"],
+      ["บันทึกลานจอด","ห้าง","สำคัญ","เวลาเข้า-ออก"],
+      ["ภาพ AVL","ตำรวจจราจร","สำคัญ","Trace เส้นทาง"]
+    ],
+    hypothesis:[
+      ["แก๊งขโมยรถมืออาชีพ","ใช้เวลาเพียง 4 นาที","ดูเทคนิคและจำนวนคน"],
+      ["มีปลายทางร้านชิ้นส่วน","กระบะมุ่งทางเดียว","Trace AVL"],
+      ["ปลอมป้ายทะเบียนกระบะ","ตรวจไม่พบในระบบ","เทียบภาพรถจริง"]
+    ],
+    actions:[
+      ["ออกหมายตามทะเบียนกระบะ","พนักงานสอบสวน","สูงมาก","กำลังดำเนินการ","ผ่านระบบ AVL"],
+      ["รวม CCTV เส้นทางหลัก","ชุดจราจร","สูง","กำลังดำเนินการ","ตามทิศทางออก"],
+      ["ตรวจร้านชิ้นส่วน / ตลาดมืด","ชุดสืบสวน","สูง","รอดำเนินการ","รัศมี 30 กม."],
+      ["ออกประกาศตามทะเบียน จยย.","หัวหน้าชุด","สูง","เสร็จ","แจ้งทุก สน."]
+    ],
+    report:"คดีโจรกรรมรถมีรูปแบบเป็นทีม ใช้กระบะขน ต้องเร่ง Trace ป้ายทะเบียนผ่าน AVL และตรวจร้านชิ้นส่วนในรัศมี เนื่องจากรถมักถูกถอดขายอะไหล่ภายใน 24 ชม."
+  },
+  {
+    id:"C08",group:"g2",title:"ทำร้ายร่างกาย / ทะเลาะวิวาท",
+    scenario:"เกิดเหตุชกต่อยในร้านอาหารช่วงดึก คู่กรณี 2 ฝ่าย ฝ่ายละ 3 คน ผู้เสียหายถูกชกหน้าและเตะตัว มีบาดเจ็บที่ใบหน้าและซี่โครง รพ. ออกใบรับรองแพทย์ มีพยาน 4 คนและกล้องวงจรปิดในร้าน",
+    persons:[
+      ["ผู้เสียหาย H","ผู้ร้องทุกข์","บาดเจ็บ"],
+      ["ฝ่ายผู้กระทำ 3 คน","ผู้ต้องสงสัย","ระบุตัวจาก CCTV"],
+      ["พยาน 4 คน","พยาน","ลูกค้าในร้าน"],
+      ["พนักงานเสิร์ฟ","พยาน","เห็นเหตุการณ์ตั้งแต่ต้น"]
+    ],
+    channels:[
+      ["CCTV ในร้าน","ร้านอาหาร","หลายมุม"],
+      ["CCTV หน้าร้าน","ร้านอาหาร","เห็นการเดินออก"],
+      ["ใบรับรองแพทย์","รพ.","ลงรายละเอียดบาดแผล"],
+      ["รถของฝ่ายผู้กระทำ","CCTV ลาน","ทะเบียน"]
+    ],
+    timeline:[
+      ["22:30","ผู้เสียหายเข้าร้าน"],
+      ["23:15","ฝ่ายผู้กระทำเข้าร้าน เริ่มมีปากเสียง"],
+      ["23:40","เกิดการชกต่อย"],
+      ["23:42","พนักงานเข้าห้าม"],
+      ["23:50","ฝ่ายผู้กระทำหลบหนี"],
+      ["00:30","ผู้เสียหายไป รพ."],
+      ["02:00","แจ้งความ"]
+    ],
+    evidence:[
+      ["CCTV เหตุการณ์","ร้านอาหาร","สำคัญมาก","ขอ Backup ทันที"],
+      ["ใบรับรองแพทย์","รพ.","สำคัญ","ระบุระยะเวลารักษา"],
+      ["ภาพบาดแผล","ผู้เสียหาย","สำคัญ","ถ่ายเก็บ"],
+      ["พยาน 4 ราย","ในร้าน","สำคัญ","เก็บปากคำ"]
+    ],
+    hypothesis:[
+      ["มีความขัดแย้งเดิม","ฝ่ายผู้กระทำเดินตรงมาหา","สอบประวัติ"],
+      ["เมาสุรา","ดูพฤติกรรมใน CCTV","ตรวจกล้อง"],
+      ["มีอาวุธหรือไม่","ตรวจ CCTV ละเอียด","ใช้เป็นเหตุเพิ่มโทษ"]
+    ],
+    actions:[
+      ["รวบรวม CCTV ทุกมุม","พนักงานสอบสวน","สูง","เสร็จ","Backup สำเนา"],
+      ["เก็บปากคำพยาน 4 ราย","ชุดสืบสวน","สูง","กำลังดำเนินการ","แยกห้อง"],
+      ["ออกหมายเรียกฝ่ายผู้กระทำ","หัวหน้าชุด","สูง","กำลังดำเนินการ","หลังระบุตัวตน"],
+      ["ตรวจป้ายทะเบียนรถออกจากร้าน","ชุดจราจร","กลาง","รอดำเนินการ","เพิ่มเติม"]
+    ],
+    report:"คดีทำร้ายร่างกายมีหลักฐานครบทั้ง CCTV / พยาน / ใบรับรองแพทย์ ต้องเร่งระบุตัวฝ่ายผู้กระทำและออกหมายเรียก เพื่อสอบปากคำให้ครบถ้วน"
+  },
+  {
+    id:"C09",group:"g2",title:"บุคคลสูญหายผิดปกติ",
+    scenario:"นางสาว I อายุ 22 ปี หายตัวออกจากบ้านพักเมื่อเย็นวันศุกร์ ติดต่อไม่ได้ตั้งแต่ 19:00 มือถือปิดเครื่อง ครอบครัวพบรถยังจอดที่บ้าน ไม่มีกระเป๋าเดินทาง ก่อนหายตัวมีอาการเครียดเรื่องงาน",
+    persons:[
+      ["ผู้สูญหาย","ผู้สูญหาย","หญิง 22 ปี"],
+      ["บิดา-มารดา","ผู้ร้องทุกข์","ผู้ปกครอง"],
+      ["เพื่อนสนิท","พยาน","ติดต่อสุดท้าย"],
+      ["หัวหน้าที่ทำงาน","พยาน","ทราบเรื่องเครียด"]
+    ],
+    channels:[
+      ["มือถือ","เปิดล่าสุด 19:02","Cell Site"],
+      ["Social Media","Last seen","Facebook / IG"],
+      ["บัญชีธนาคาร","ดูธุรกรรม","มีถอน 2,000 ก่อนหาย"],
+      ["รถยนต์","ยังอยู่ที่บ้าน","ไม่ได้ใช้รถ"]
+    ],
+    timeline:[
+      ["08:00","ออกไปทำงาน"],
+      ["17:00","กลับบ้าน"],
+      ["18:00","คุยกับมารดาในห้อง"],
+      ["18:50","ถอนเงิน 2,000 ที่ตู้ใกล้บ้าน"],
+      ["19:00","ออกจากบ้านเดินเท้า"],
+      ["19:02","มือถือดับ"],
+      ["22:00","ครอบครัวเริ่มหา"]
+    ],
+    evidence:[
+      ["CCTV หน้าบ้าน","กล้องเอกชน","สำคัญมาก","เห็นทิศทาง"],
+      ["CCTV ตู้ ATM","ธนาคาร","สำคัญ","เวลา 18:50"],
+      ["Cell Site","ค่ายมือถือ","สำคัญมาก","Last location"],
+      ["บันทึกการสนทนา","มารดา","สำคัญ","สภาพจิตใจ"]
+    ],
+    hypothesis:[
+      ["หนีออกจากบ้าน (สมัครใจ)","มีถอนเงิน / เครียด","ตรวจกระเป๋า เสื้อผ้า"],
+      ["พบเหตุร้าย","ทิ้งรถ ทิ้งของ","Trace เส้นทาง"],
+      ["ทำร้ายตัวเอง","มีภาวะเครียด","ตรวจสถานที่เสี่ยง"]
+    ],
+    actions:[
+      ["ขอ Cell Site / Last location","พนักงานสอบสวน","สูงมาก","กำลังดำเนินการ","ภายใน 24 ชม."],
+      ["รวม CCTV ตามเส้นทาง","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","จากบ้าน → ATM → ?"],
+      ["สอบปากคำเพื่อนสนิท / ที่ทำงาน","ชุดสืบสวน","สูง","กำลังดำเนินการ","ดูพฤติกรรมล่าสุด"],
+      ["ประสาน รพ. / มูลนิธิ","หัวหน้าชุด","สูง","เสร็จ","กรณีอุบัติเหตุ"]
+    ],
+    report:"คดีคนหายมีสัญญาณ \"หายผิดปกติ\" ทั้งทิ้งรถ มือถือดับ และสภาพจิตใจเครียด ต้องเร่ง Cell Site + CCTV และสอบประวัติคนใกล้ชิดเพื่อแยกสมมติฐานหนี / เหตุร้าย / ทำร้ายตัวเอง"
+  },
+  {
+    id:"C10",group:"g2",title:"ข่มขู่ / แบล็กเมล / ปล่อยภาพลับ",
+    scenario:"ผู้เสียหายหญิงถูกอดีตคนรักข่มขู่จะปล่อยภาพส่วนตัวหากไม่จ่ายเงิน 200,000 บาท ส่งภาพตัวอย่างทาง Line และข่มขู่ผ่านโทรศัพท์ มีหลักฐานข้อความ ภาพตัวอย่าง และเสียงโทรศัพท์",
+    persons:[
+      ["ผู้เสียหาย J","ผู้ร้องทุกข์","หญิง 27 ปี"],
+      ["อดีตคนรัก","ผู้ต้องสงสัยหลัก","รู้จักตัวตนชัดเจน"],
+      ["เพื่อนผู้เสียหาย","พยาน","รู้ความสัมพันธ์เดิม"],
+      ["ครอบครัวผู้ต้องสงสัย","ผู้เกี่ยวข้อง","อาจรู้เห็น"]
+    ],
+    channels:[
+      ["Line","ข้อความข่มขู่","มีภาพตัวอย่าง"],
+      ["โทรศัพท์","เบอร์ผู้ต้องสงสัย","มีบันทึกเสียง"],
+      ["บัญชีรับเงิน","ของผู้ต้องสงสัย","ระบุปลายทาง"],
+      ["Cloud / มือถือเก่า","แหล่งภาพ","ตรวจที่มา"]
+    ],
+    timeline:[
+      ["6 เดือนก่อน","เลิกความสัมพันธ์"],
+      ["3 สัปดาห์ก่อน","ติดต่อขอเงิน 50,000"],
+      ["2 สัปดาห์ก่อน","ขู่จะปล่อยภาพ"],
+      ["1 สัปดาห์ก่อน","ส่งภาพตัวอย่าง"],
+      ["3 วันก่อน","เพิ่มยอดเป็น 200,000"],
+      ["วันนี้","ผู้เสียหายแจ้งความ"]
+    ],
+    evidence:[
+      ["แชท Line ทั้งหมด","Export + ภาพ","สำคัญมาก","มีคำขู่ชัดเจน"],
+      ["บันทึกเสียง","ผู้เสียหาย","สำคัญ","มีคำขู่"],
+      ["ภาพตัวอย่าง","ในแชท","สำคัญ","ตรวจ Metadata"],
+      ["ข้อมูลบัญชีรับเงิน","ที่ส่งให้ผู้เสียหาย","สำคัญ","ตรวจเจ้าของบัญชี"]
+    ],
+    hypothesis:[
+      ["ผู้ต้องสงสัยเก็บภาพไว้ตั้งแต่ตอนคบ","มีภาพหลายรูป","ตรวจมือถือเก่า"],
+      ["มีผู้ร่วมขบวนการ","ภาษาในแชทเปลี่ยนสไตล์","ตรวจ IP login"],
+      ["เคยกระทำกับเหยื่ออื่น","ดูประวัติ","ตรวจประวัติแจ้งความ"]
+    ],
+    actions:[
+      ["รักษาหลักฐานดิจิทัล","ผู้รับเรื่อง","สูงมาก","เสร็จ","Hash + Backup"],
+      ["ขอหมายค้นมือถือผู้ต้องสงสัย","พนักงานสอบสวน","สูง","กำลังดำเนินการ","ก่อนถูกลบ"],
+      ["ออกหมายเรียก","หัวหน้าชุด","สูง","กำลังดำเนินการ","แจ้งข้อหาข่มขู่ + พ.ร.บ.คอมพ์"],
+      ["ประสานคุ้มครองผู้เสียหาย","นักจิตวิทยา","สูง","เสร็จ","เพื่อความปลอดภัย"]
+    ],
+    report:"คดีข่มขู่ปล่อยภาพลับเข้าข่าย พ.ร.บ.คอมพ์ ม.14, 16 และข่มขืนใจฯ จุดสำคัญคือเก็บหลักฐานก่อนถูกลบ และคุ้มครองผู้เสียหายระหว่างดำเนินคดี"
+  },
+  // ========== กลุ่ม 3: คดีร้ายแรง / คดีซับซ้อน ==========
+  {
+    id:"C11",group:"g3",title:"ฆ่าผู้อื่น",
+    scenario:"พบศพชายอายุประมาณ 35 ปี ในบ้านพัก มีบาดแผลที่ศีรษะและช่องท้อง ประตูหน้าไม่มีรอยงัด หน้าต่างหลังเปิด มีร่องรอยการต่อสู้ในห้องนั่งเล่น มีเลือดเปื้อนพื้นและผนัง CCTV ภายนอกบ้านชำรุด",
+    persons:[
+      ["ผู้ตาย","ผู้ตาย","ชาย 35 ปี"],
+      ["ภรรยาผู้ตาย","ผู้แจ้ง","อยู่ต่างจังหวัด"],
+      ["เพื่อนบ้าน","พยาน","ได้ยินเสียง"],
+      ["ผู้รู้จักทางธุรกิจ","ผู้ต้องสงสัย","มีหนี้สิน"]
+    ],
+    channels:[
+      ["บ้านผู้ตาย","สถานที่เกิดเหตุ","ปิดล้อม"],
+      ["มือถือผู้ตาย","แหล่งข้อมูล","Last call / msg"],
+      ["บัญชีธนาคาร","แหล่งข้อมูล","ธุรกรรมล่าสุด"],
+      ["รถผู้ตาย","CCTV ใกล้เคียง","เคลื่อนไหวก่อนเสีย"]
+    ],
+    timeline:[
+      ["18:00","เพื่อนบ้านเห็นผู้ตายกลับบ้าน"],
+      ["20:30","เพื่อนบ้านได้ยินเสียงดัง"],
+      ["20:45","เสียงเงียบลง"],
+      ["07:30 วันรุ่งขึ้น","ภรรยาโทรไม่รับ"],
+      ["10:00","เพื่อนแวะที่บ้าน พบศพ"],
+      ["10:15","แจ้งตำรวจ"]
+    ],
+    evidence:[
+      ["ศพ + บาดแผล","ที่เกิดเหตุ","สำคัญสูงสุด","ส่งชันสูตร"],
+      ["รอยเลือด","พื้น / ผนัง","สำคัญ","Pattern + DNA"],
+      ["รอยนิ้วมือ / DNA","ที่เกิดเหตุ","สำคัญ","พิสูจน์หลักฐาน"],
+      ["มือถือ + คอมฯ ผู้ตาย","ที่เกิดเหตุ","สำคัญ","Digital Forensics"]
+    ],
+    hypothesis:[
+      ["ฆาตกรรมโดยคนรู้จัก","ไม่มีรอยงัด","ตรวจคนใกล้ชิด"],
+      ["ปัญหาหนี้สิน / ธุรกิจ","มีหนี้รายใหญ่","ดูธุรกรรม"],
+      ["ปัญหาความสัมพันธ์","ภรรยาอยู่ต่างจังหวัด","สอบประวัติ"]
+    ],
+    actions:[
+      ["ปิดล้อมที่เกิดเหตุ","ชุดพิสูจน์หลักฐาน","สูงสุด","เสร็จ","ห้ามเข้า"],
+      ["ชันสูตรพลิกศพ","แพทย์นิติเวช","สูงสุด","กำลังดำเนินการ","หาเหตุการตาย"],
+      ["รวบรวม CCTV รอบบ้าน","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","ในรัศมี 500 ม."],
+      ["สอบประวัติคนใกล้ชิด","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","ครอบครัว / ธุรกิจ"]
+    ],
+    report:"คดีฆ่าผู้อื่นมีลักษณะคนใกล้ชิดเนื่องจากไม่มีรอยงัด จุดสำคัญคือผลชันสูตร / DNA / รอยนิ้วมือ และการเชื่อมโยงกับปัญหาหนี้สินและความสัมพันธ์ ต้องตั้ง MCR ภายใน 24 ชม."
+  },
+  {
+    id:"C12",group:"g3",title:"ศพปริศนา / การตายผิดธรรมชาติ",
+    scenario:"พบศพหญิงอายุประมาณ 40 ปี ในป่าละเมาะข้างถนนสายรอง ไม่มีบัตรประชาชน ไม่ทราบตัวตน สภาพศพอยู่มาประมาณ 3-5 วัน ไม่มีร่องรอยฟกช้ำชัดเจน เสื้อผ้าครบถ้วน",
+    persons:[
+      ["ผู้ตายไม่ทราบชื่อ","ผู้ตาย","หญิง ~40 ปี"],
+      ["ผู้พบศพ","พยาน","ผู้เก็บของป่า"],
+      ["ผู้แจ้ง 191","พยาน","คนละคนกับผู้พบ"],
+      ["ผู้อยู่อาศัยในชุมชน","พยาน","อาจรู้จักผู้ตาย"]
+    ],
+    channels:[
+      ["จุดที่พบศพ","ป่าละเมาะ","ปิดล้อม"],
+      ["ลายนิ้วมือ","ผู้ตาย","เทียบฐานข้อมูลทะเบียน"],
+      ["DNA","ผู้ตาย","เทียบฐานข้อมูล"],
+      ["เสื้อผ้า / ของในตัว","ผู้ตาย","ค้นหาที่มา"]
+    ],
+    timeline:[
+      ["3-5 วันก่อน","คาดเวลาเสียชีวิต"],
+      ["08:30 วันนี้","ผู้พบศพไปเก็บของป่า"],
+      ["08:45","พบศพและแจ้ง 191"],
+      ["09:30","เจ้าหน้าที่ถึงที่เกิดเหตุ"],
+      ["10:15","พิสูจน์หลักฐานเก็บข้อมูล"],
+      ["12:00","ส่งศพชันสูตร"]
+    ],
+    evidence:[
+      ["ศพ","ที่เกิดเหตุ","สูงสุด","ชันสูตรเต็มรูปแบบ"],
+      ["ลายนิ้วมือ","ผู้ตาย","สูงสุด","เทียบทะเบียนราษฎร"],
+      ["DNA","ผู้ตาย","สูงสุด","เก็บไว้เทียบ"],
+      ["เสื้อผ้า / ของในตัว","ผู้ตาย","สำคัญ","ค้นยี่ห้อ / ใบเสร็จ"]
+    ],
+    hypothesis:[
+      ["เสียชีวิตจากเหตุธรรมชาติ","ไม่มีฟกช้ำชัด","รอผลชันสูตร"],
+      ["ถูกทำร้ายแล้วนำมาทิ้ง","ที่ห่างไกล","ตรวจ Track ลากผู้ตาย"],
+      ["เสียชีวิตที่อื่นแล้วย้ายมา","ตรวจสภาพศพ","นิติเวช"]
+    ],
+    actions:[
+      ["พิสูจน์อัตลักษณ์","พิสูจน์หลักฐาน","สูงสุด","กำลังดำเนินการ","ลายนิ้วมือ + DNA"],
+      ["สแกน CCTV ในรัศมี 5 กม.","ชุดสืบสวน","สูง","กำลังดำเนินการ","หาคนที่ผ่านเข้าออก"],
+      ["ตรวจรายงานคนหายในพื้นที่","ชุดสืบสวน","สูง","เสร็จ","เปิดประกาศ"],
+      ["ชันสูตรเต็มรูปแบบ","แพทย์นิติเวช","สูงสุด","กำลังดำเนินการ","หาเวลาและสาเหตุ"]
+    ],
+    report:"คดีศพปริศนาต้องเร่งพิสูจน์อัตลักษณ์เป็นอันดับแรกผ่านลายนิ้วมือ / DNA และผลชันสูตร พร้อมเทียบฐานข้อมูลคนหาย เพื่อตั้งทิศทางการสืบสวนต่อ"
+  },
+  {
+    id:"C13",group:"g3",title:"คนหายก่อนกลายเป็นศพ",
+    scenario:"นาย K อายุ 45 ปี หายตัว 7 วันก่อน ครอบครัวแจ้งความที่ สน. ใกล้บ้าน ต่อมาพบศพในแม่น้ำห่างจากบ้าน 30 กม. มีบาดแผลที่ศีรษะ คาดถูกทำร้ายก่อนถูกโยนทิ้ง ก่อนหายมีปัญหาธุรกิจกับหุ้นส่วน",
+    persons:[
+      ["นาย K","ผู้ตาย","ก่อนหน้านี้คือผู้สูญหาย"],
+      ["ภรรยา","ผู้ร้อง","แจ้งคนหาย"],
+      ["หุ้นส่วนธุรกิจ","ผู้ต้องสงสัยหลัก","มีข้อพิพาท"],
+      ["พนักงานในบริษัท","พยาน","อาจรู้รายละเอียด"]
+    ],
+    channels:[
+      ["บ้านผู้ตาย","แหล่งข้อมูล","ตรวจร่องรอย"],
+      ["บริษัท","แหล่งข้อมูล","ตรวจเอกสารธุรกิจ"],
+      ["มือถือ","Cell Site","Last location"],
+      ["รถผู้ตาย","ค้นหา","ยังไม่พบ"]
+    ],
+    timeline:[
+      ["7 วันก่อน","ออกไปประชุมหุ้นส่วนเย็น"],
+      ["7 วันก่อน 19:30","มือถือดับ"],
+      ["6 วันก่อน","ครอบครัวแจ้งคนหาย"],
+      ["3 วันก่อน","พบรถถูกทิ้งห่างบ้าน 15 กม."],
+      ["วันนี้","พบศพในแม่น้ำห่าง 30 กม."],
+      ["+1 ชม.","พิสูจน์ตัวตน = นาย K"]
+    ],
+    evidence:[
+      ["ศพ + บาดแผล","แม่น้ำ","สูงสุด","ชันสูตร"],
+      ["รถผู้ตาย","จุดที่ทิ้ง","สำคัญมาก","DNA / รอยเลือด"],
+      ["มือถือ Cell Site","ค่ายมือถือ","สำคัญมาก","Last location 19:30"],
+      ["เอกสารธุรกิจ","บริษัท","สำคัญ","มีข้อพิพาทเงิน"]
+    ],
+    hypothesis:[
+      ["ถูกทำร้ายโดยหุ้นส่วน","มีข้อพิพาท","ตรวจ Alibi"],
+      ["ถูกจ้างวานทำร้าย","คนนอกแต่จ้างใน","ดูธุรกรรมเงิน"],
+      ["เกี่ยวพันหนี้นอกระบบ","ดูประวัติ","สอบครอบครัว"]
+    ],
+    actions:[
+      ["ตั้งคณะทำงานคดีร้ายแรง (MCR)","หัวหน้าชุด","สูงสุด","เสร็จ","หลายหน่วย"],
+      ["ชันสูตรหาเวลาและสาเหตุการตาย","แพทย์นิติเวช","สูงสุด","กำลังดำเนินการ","-"],
+      ["รวม CCTV จุดทิ้งศพ + ทิ้งรถ","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","-"],
+      ["ตรวจ Alibi หุ้นส่วน","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","ทุกชั่วโมง"]
+    ],
+    report:"คดีคนหาย → ศพ มีข้อสงสัยฆาตกรรม ต้องผนวกข้อมูลคดีคนหายเดิมเข้ากับคดีฆ่า ตั้ง MCR และตรวจ Alibi หุ้นส่วนพร้อมธุรกรรมเงินเป็นอันดับแรก"
+  },
+  {
+    id:"C14",group:"g3",title:"ชิงทรัพย์ / ปล้น / ใช้อาวุธ",
+    scenario:"คนร้าย 2 คนสวมหมวกกันน็อค ใช้ จยย. บุกร้านทองในห้าง ขู่พนักงานด้วยปืน ใช้ค้อนทุบตู้ กวาดทอง 8 เส้น น้ำหนักรวม 150 บาท หลบหนีไปทางถนนเส้นรอง CCTV ในร้านและรอบห้างชัดเจน",
+    persons:[
+      ["พนักงานร้าน 3 คน","ผู้เสียหาย","ถูกขู่"],
+      ["เจ้าของร้าน","ผู้เสียหาย","มูลค่าเสียหายสูง"],
+      ["คนร้าย 2 คน","ผู้ต้องสงสัย","สวมหมวกปกปิดใบหน้า"],
+      ["ลูกค้าในห้าง","พยาน","หลายราย"]
+    ],
+    channels:[
+      ["CCTV ในร้านทอง","ห้าง","สำคัญสูงสุด"],
+      ["CCTV ทางออก","ห้าง","สำคัญสูงสุด"],
+      ["จยย. คนร้าย","CCTV ถนน","ทะเบียน"],
+      ["ปืน / ค้อน","ที่เกิดเหตุ","อาจตกในที่เกิดเหตุ"]
+    ],
+    timeline:[
+      ["13:45","คนร้ายขับ จยย. ถึงห้าง"],
+      ["13:48","เข้าร้านทอง"],
+      ["13:49","ขู่ด้วยปืน"],
+      ["13:50","ทุบตู้ + กวาดทอง"],
+      ["13:53","ออกจากร้านขึ้น จยย."],
+      ["13:55","หลบหนีออกเส้นรอง"],
+      ["14:00","ตำรวจถึงที่เกิดเหตุ"]
+    ],
+    evidence:[
+      ["CCTV ในร้านทอง","ห้าง","สูงสุด","Backup ทันที"],
+      ["CCTV รอบห้าง","ห้าง / เทศบาล","สูงสุด","ติดตามทิศทางหลบหนี"],
+      ["รอยปลอกกระสุน (ถ้ามี)","ที่เกิดเหตุ","สำคัญ","พิสูจน์หลักฐาน"],
+      ["DNA / รอยนิ้วมือ","ตู้ / เคาน์เตอร์","สำคัญ","ตรวจที่เปื้อนสัมผัส"]
+    ],
+    hypothesis:[
+      ["มืออาชีพ มีการวางแผน","ใช้เวลาน้อยมาก","ดูพฤติกรรมก่อนเข้า"],
+      ["มีคนช่วยดูต้นทาง","มีคนที่ไม่เข้าร่วม","ดู CCTV ทุกมุม"],
+      ["ปืนเป็นของจริง","ตรวจรอย","ขอ CCTV ดูอาวุธ"]
+    ],
+    actions:[
+      ["ปิดล้อมพื้นที่ + ตั้งจุดสกัด","หัวหน้าชุด","สูงสุด","เสร็จ","รัศมี 10 กม."],
+      ["รวม CCTV ทุกเส้นทาง","ชุดสืบสวน","สูงสุด","กำลังดำเนินการ","ภายใน 1 ชม."],
+      ["Trace ทะเบียน จยย.","ชุดจราจร","สูงมาก","กำลังดำเนินการ","ระบบ AVL"],
+      ["แจ้งร้านรับซื้อทอง","ชุดสืบสวน","สูง","เสร็จ","ทั่วประเทศ"]
+    ],
+    report:"คดีชิงทรัพย์ใช้อาวุธลักษณะมืออาชีพ ต้องเร่งตั้งจุดสกัด รวม CCTV และ Trace ทะเบียน จยย. พร้อมแจ้งร้านรับซื้อทองทั่วประเทศ เพื่อตัดเส้นทางจำหน่ายทอง"
+  },
+  {
+    id:"C15",group:"g3",title:"ลอบวางเพลิง / ไฟไหม้ต้องสงสัย",
+    scenario:"เกิดเพลิงไหม้โกดังเก็บสินค้า เวลา 02:30 น. ทรัพย์สินเสียหายประมาณ 25 ล้านบาท ไม่มีผู้บาดเจ็บ ระบบเตือนภัยและกล้อง CCTV ในโกดังถูกตัดก่อนเกิดเหตุ ผู้เสียหายเพิ่งทำประกันเพิ่มมูลค่า 1 เดือนก่อน",
+    persons:[
+      ["เจ้าของโกดัง","ผู้เสียหาย / ต้องสงสัย","ทำประกันเพิ่ม"],
+      ["พนักงานเฝ้าโกดัง","ผู้ต้องสงสัย","อยู่ในที่เกิดเหตุ"],
+      ["บริษัทประกัน","ผู้เกี่ยวข้อง","ตรวจ Claim"],
+      ["พยานในละแวก","พยาน","ได้ยินเสียง"]
+    ],
+    channels:[
+      ["จุดต้นเพลิง","โกดัง","ห้องเก็บสาร"],
+      ["CCTV","ถูกตัด","ก่อนเกิดเหตุ"],
+      ["บัญชีธนาคารเจ้าของ","แหล่งข้อมูล","ดูสภาพคล่อง"],
+      ["ประกันภัย","แหล่งข้อมูล","มูลค่าและประวัติ Claim"]
+    ],
+    timeline:[
+      ["1 เดือนก่อน","เพิ่มทุนประกันเป็น 30 ล้าน"],
+      ["1 สัปดาห์ก่อน","เริ่มย้ายของบางส่วนออก"],
+      ["6 ชม. ก่อนเกิดเหตุ","CCTV ถูกตัดไฟ"],
+      ["02:30","เพลิงเริ่มลุกไหม้"],
+      ["02:45","พลเมืองดีโทรแจ้ง 199"],
+      ["04:00","ดับเพลิงควบคุมได้"],
+      ["08:00","พิสูจน์หลักฐานเข้าตรวจ"]
+    ],
+    evidence:[
+      ["จุดต้นเพลิง","โกดัง","สูงสุด","นิติวิทยา + เร่งเชื้อ"],
+      ["สาร Accelerant","ตัวอย่างจากที่เกิดเหตุ","สูงสุด","ตรวจ Lab"],
+      ["บันทึก CCTV ก่อนถูกตัด","Backup Cloud","สำคัญมาก","ดูผู้ตัดไฟ"],
+      ["เอกสารประกัน","บริษัทประกัน","สำคัญมาก","มูลค่าและช่วงเวลา"]
+    ],
+    hypothesis:[
+      ["จงใจวางเพลิงเพื่อเคลม","เพิ่มทุนประกันก่อน","ตรวจสภาพคล่อง"],
+      ["พนักงานเฝ้าโกดังร่วมมือ","อยู่ในที่เกิดเหตุ","สอบ Alibi"],
+      ["ลูกค้า / คู่แข่งแก้แค้น","มีข้อพิพาท","ตรวจประวัติ"]
+    ],
+    actions:[
+      ["ปิดล้อมที่เกิดเหตุ","ชุดพิสูจน์","สูงสุด","เสร็จ","เก็บตัวอย่างสาร"],
+      ["ตรวจสารเร่งเชื้อ","นิติวิทยาศาสตร์","สูงสุด","กำลังดำเนินการ","Lab"],
+      ["ตรวจสภาพคล่องเจ้าของ","ชุดสืบสวน","สูงมาก","กำลังดำเนินการ","สถาบันการเงิน"],
+      ["สอบประวัติ Claim ก่อนหน้า","ฝ่ายประสาน","สูง","กำลังดำเนินการ","บริษัทประกัน"]
+    ],
+    report:"คดีลอบวางเพลิงต้องสงสัยมีพฤติการณ์เพิ่มทุนประกัน + ตัด CCTV ก่อนเกิดเหตุ ต้องตรวจสารเร่งเชื้อในที่เกิดเหตุและสภาพคล่องเจ้าของเป็นจุดสำคัญ ก่อนสรุปประเด็น"
+  }
+];
+
+
+// ---------- STATE ----------
+const STORAGE_KEY = "acsc_checklist_v2";
+let state = loadState();
+let currentCaseId = state.lastCase || "C01";
+let currentView = "case"; // case | dash
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {cases:{}, theme:"light", lastCase:"C01"};
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function getCaseState(id){
+  if(!state.cases[id]){
+    const base = CASES.find(c=>c.id===id);
+    state.cases[id] = {
+      checks: STD_CHECKLIST.map(()=>({done:false, note:""})),
+      persons: deepCopy(base.persons),
+      channels: deepCopy(base.channels),
+      timeline: deepCopy(base.timeline),
+      evidence: deepCopy(base.evidence),
+      hypothesis: deepCopy(base.hypothesis),
+      actions: deepCopy(base.actions),
+      report: base.report
+    };
+  }
+  return state.cases[id];
+}
+function deepCopy(x){return JSON.parse(JSON.stringify(x))}
+
+// ---------- TOAST ----------
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// ---------- THEME ----------
+function applyTheme(){
+  document.body.setAttribute('data-theme', state.theme||'light');
+  document.getElementById('themeBtn').textContent = state.theme==='dark' ? '☀️' : '🌙';
+}
+function toggleTheme(){
+  state.theme = state.theme==='dark' ? 'light' : 'dark';
+  applyTheme(); saveState();
+}
+
+// ---------- SIDEBAR ----------
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function renderSidebar(filter=""){
+  const list = document.getElementById('caseList');
+  const groups = {g1:[],g2:[],g3:[]};
+  const f = filter.trim().toLowerCase();
+  CASES.forEach(c=>{
+    if(f && !(c.title.toLowerCase().includes(f) || c.id.toLowerCase().includes(f) || c.scenario.toLowerCase().includes(f))) return;
+    groups[c.group].push(c);
+  });
+  let html="";
+  Object.keys(GROUPS).forEach(gk=>{
+    if(!groups[gk].length) return;
+    const g=GROUPS[gk];
+    html += `<div class="group-title"><span class="dot" style="background:var(--${gk})"></span>${g.icon} ${g.name}</div>`;
+    groups[gk].forEach(c=>{
+      const cs=getCaseState(c.id);
+      const done=cs.checks.filter(x=>x.done).length;
+      const pct=Math.round(done/STD_CHECKLIST.length*100);
+      html += `<div class="case-item ${c.id===currentCaseId&&currentView==='case'?'active':''}" data-id="${c.id}">
+        <span class="code">${c.id}</span>
+        <span class="ttl">${c.title}</span>
+        <div style="text-align:right">
+          <div class="pct">${pct}%</div>
+          <div class="progress-mini"><i style="width:${pct}%"></i></div>
+        </div>
+      </div>`;
+    });
+  });
+  if(!html) html = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px">ไม่พบเคสที่ค้นหา</div>`;
+  list.innerHTML = html;
+  list.querySelectorAll('.case-item').forEach(el=>{
+    el.onclick = ()=>{
+      currentCaseId = el.dataset.id;
+      currentView = "case";
+      state.lastCase = currentCaseId; saveState();
+      renderSidebar(document.getElementById('search').value);
+      renderMain();
+      if(window.innerWidth<=980) document.getElementById('sidebar').classList.remove('open');
+    };
+  });
+  // overall progress
+  let totalDone=0,totalAll=0;
+  CASES.forEach(c=>{
+    const cs=getCaseState(c.id);
+    totalDone += cs.checks.filter(x=>x.done).length;
+    totalAll += STD_CHECKLIST.length;
+  });
+  const opct = Math.round(totalDone/totalAll*100);
+  document.getElementById('overallPct').textContent = `รวม ${opct}%`;
+}
+
+// ---------- MAIN RENDER ----------
+function renderMain(){
+  const c = CASES.find(x=>x.id===currentCaseId);
+  if(currentView==='dash'){ renderDashboard(); return; }
+  const cs = getCaseState(c.id);
+  const g = GROUPS[c.group];
+  document.getElementById('caseMeta').innerHTML = `
+    <h2><span class="tag ${c.group}">${g.icon} ${g.name}</span> ${c.id} — ${c.title}</h2>
+    <div class="crumb">บันทึกอัตโนมัติเมื่อแก้ไข • Local Storage</div>
+  `;
+
+  const done = cs.checks.filter(x=>x.done).length;
+  const pct = Math.round(done/STD_CHECKLIST.length*100);
+
+  let html=`
+  <div class="disclaimer">
+    <span>⚠️</span>
+    <span><b>หมายเหตุ:</b> เคสทั้งหมดเป็นตัวอย่างสมมติ ใช้เพื่อการฝึกอบรมเท่านั้น • ข้อมูลที่กรอกจะถูกเก็บไว้ในเบราว์เซอร์ของคุณ (Local Storage)</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="stat"><b>${done}/${STD_CHECKLIST.length}</b><span style="color:var(--muted);font-size:11px">รายการเสร็จ</span></div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div class="stat" style="text-align:right"><b style="color:var(--success)">${pct}%</b><span style="color:var(--muted);font-size:11px">ความคืบหน้า</span></div>
+  </div>
+
+  <div class="section">
+    <h3><span class="ix">1</span>Scenario / สถานการณ์สมมติ</h3>
+    <div class="body">
+      <div class="scenario" contenteditable="true" data-field="scenario">${escapeHTML(c.scenario)}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><span class="ix">2</span>Checklist ตัวอย่าง <span style="margin-left:auto;font-size:11px;color:var(--muted);font-weight:400">(${done}/${STD_CHECKLIST.length})</span></h3>
+    <div class="body">
+      <ul class="checklist" id="chkList">
+        ${STD_CHECKLIST.map((it,i)=>{
+          const v=cs.checks[i]||{done:false,note:""};
+          return `<li class="chk-item ${v.done?'done':''}">
+            <span class="chk-box ${v.done?'checked':''}" data-i="${i}"></span>
+            <div class="chk-text">
+              <div class="title">${i+1}. ${escapeHTML(it.t)}</div>
+              <div class="desc">${escapeHTML(it.d)}</div>
+              <textarea class="chk-note" data-i="${i}" placeholder="บันทึกเพิ่มเติม / คำสั่ง / ผู้รับผิดชอบ...">${escapeHTML(v.note||"")}</textarea>
+            </div>
+          </li>`;
+        }).join('')}
+      </ul>
+    </div>
+  </div>
+
+  ${tableSection(3, "บุคคล / หน่วยเกี่ยวข้อง", "persons", ["ชื่อ / ฝ่าย","บทบาท","หมายเหตุ"], cs.persons)}
+  ${tableSection(4, "บัญชี / อุปกรณ์ / ช่องทาง / สถานที่", "channels", ["ประเภท","รายละเอียด","หมายเหตุ"], cs.channels)}
+  ${tableSection(5, "Timeline", "timeline", ["เวลา / วันที่","เหตุการณ์"], cs.timeline)}
+  ${tableSection(6, "Evidence Inventory", "evidence", ["พยานหลักฐาน","แหล่งที่มา","สถานะ","หมายเหตุ"], cs.evidence)}
+  ${tableSection(7, "Hypothesis Board", "hypothesis", ["สมมติฐาน","ข้อสนับสนุน","แนวทางตรวจสอบ"], cs.hypothesis)}
+  ${tableSection(8, "Action Log", "actions", ["งาน","ผู้รับผิดชอบ","ความเร่งด่วน","สถานะ","หมายเหตุ"], cs.actions)}
+
+  <div class="section">
+    <h3><span class="ix">9</span>Mini Report สรุป</h3>
+    <div class="body">
+      <div class="mini-report">
+        <textarea data-field="report" placeholder="สรุปข้อเท็จจริง ประเด็นสืบสวน ความเสี่ยง และข้อเสนอแนะ...">${escapeHTML(cs.report||"")}</textarea>
+      </div>
+    </div>
+  </div>
+  `;
+  document.getElementById('content').innerHTML = html;
+  bindCaseEvents();
+}
+
+function tableSection(ix, title, field, headers, rows){
+  return `<div class="section">
+    <h3><span class="ix">${ix}</span>${title}</h3>
+    <div class="body">
+      <div class="tbl-wrap">
+        <table class="data" data-tbl="${field}">
+          <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}<th class="row-actions"></th></tr></thead>
+          <tbody>
+            ${rows.map((r,ri)=>tableRow(field,headers,r,ri)).join('')}
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row" data-add="${field}" data-cols="${headers.length}">＋ เพิ่มแถว</button>
+    </div>
+  </div>`;
+}
+function tableRow(field,headers,r,ri){
+  const cells = headers.map((_,ci)=>`<td contenteditable="true" data-r="${ri}" data-c="${ci}">${escapeHTML(r[ci]||"")}</td>`).join('');
+  return `<tr>${cells}<td class="row-actions"><button class="del-btn" data-del="${field}" data-r="${ri}" title="ลบแถว">🗑️</button></td></tr>`;
+}
+
+function escapeHTML(s){
+  return String(s||"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+// ---------- BIND EVENTS (case page) ----------
+function bindCaseEvents(){
+  const cs = getCaseState(currentCaseId);
+
+  // checkboxes
+  document.querySelectorAll('.chk-box').forEach(b=>{
+    b.onclick = ()=>{
+      const i = +b.dataset.i;
+      cs.checks[i].done = !cs.checks[i].done;
+      saveState();
+      b.classList.toggle('checked', cs.checks[i].done);
+      b.closest('.chk-item').classList.toggle('done', cs.checks[i].done);
+      renderSidebar(document.getElementById('search').value);
+      // update progress bar
+      const done = cs.checks.filter(x=>x.done).length;
+      const pct = Math.round(done/STD_CHECKLIST.length*100);
+      const bar = document.querySelector('.progress-bar');
+      if(bar){
+        bar.querySelector('.stat b').textContent = `${done}/${STD_CHECKLIST.length}`;
+        bar.querySelector('.bar > i').style.width = pct+"%";
+        bar.querySelector('.stat:last-child b').textContent = pct+"%";
+      }
+      const head = document.querySelector('.section h3 span[style*="auto"]');
+      if(head) head.textContent = `(${done}/${STD_CHECKLIST.length})`;
+    };
+  });
+
+  // notes
+  document.querySelectorAll('.chk-note').forEach(t=>{
+    t.oninput = ()=>{
+      const i = +t.dataset.i;
+      cs.checks[i].note = t.value;
+      saveState();
+    };
+  });
+
+  // scenario / report editable
+  document.querySelectorAll('[data-field]').forEach(el=>{
+    const ev = el.tagName==='TEXTAREA' ? 'input' : 'blur';
+    el.addEventListener(ev, ()=>{
+      const f = el.dataset.field;
+      cs[f] = el.tagName==='TEXTAREA' ? el.value : el.innerText.trim();
+      saveState();
+    });
+  });
+
+  // table cells
+  document.querySelectorAll('table.data').forEach(tbl=>{
+    const field = tbl.dataset.tbl;
+    tbl.querySelectorAll('td[contenteditable]').forEach(td=>{
+      td.addEventListener('blur', ()=>{
+        const r=+td.dataset.r, c=+td.dataset.c;
+        if(!cs[field][r]) cs[field][r]=[];
+        cs[field][r][c] = td.innerText.trim();
+        saveState();
+      });
+    });
+  });
+
+  // add row
+  document.querySelectorAll('[data-add]').forEach(b=>{
+    b.onclick = ()=>{
+      const f=b.dataset.add, cols=+b.dataset.cols;
+      cs[f].push(new Array(cols).fill(""));
+      saveState();
+      renderMain();
+      // focus last row first cell
+      setTimeout(()=>{
+        const tbl = document.querySelector(`table[data-tbl="${f}"]`);
+        if(tbl){
+          const rows = tbl.querySelectorAll('tbody tr');
+          const lastRow = rows[rows.length-1];
+          if(lastRow) lastRow.querySelector('td[contenteditable]').focus();
+        }
+      },50);
+    };
+  });
+
+  // delete row
+  document.querySelectorAll('[data-del]').forEach(b=>{
+    b.onclick = ()=>{
+      const f=b.dataset.del, r=+b.dataset.r;
+      if(!confirm("ลบแถวนี้?")) return;
+      cs[f].splice(r,1);
+      saveState();
+      renderMain();
+      toast("ลบแถวแล้ว");
+    };
+  });
+}
+
+// ---------- DASHBOARD ----------
+function renderDashboard(){
+  document.getElementById('caseMeta').innerHTML = `
+    <h2>📊 Dashboard ภาพรวม</h2>
+    <div class="crumb">สรุปความคืบหน้าทั้ง 15 เคส</div>
+  `;
+  let totalDone=0, totalAll=0;
+  const groupStats = {g1:{d:0,a:0,n:0}, g2:{d:0,a:0,n:0}, g3:{d:0,a:0,n:0}};
+  CASES.forEach(c=>{
+    const cs=getCaseState(c.id);
+    const d=cs.checks.filter(x=>x.done).length;
+    const a=STD_CHECKLIST.length;
+    totalDone+=d; totalAll+=a;
+    groupStats[c.group].d+=d; groupStats[c.group].a+=a; groupStats[c.group].n++;
+  });
+  const opct = Math.round(totalDone/totalAll*100);
+
+  let html = `
+    <div class="dash">
+      <div class="dash-card">
+        <div class="lbl">เคสทั้งหมด</div>
+        <div class="val">${CASES.length}</div>
+        <div class="sub">3 กลุ่มคดี</div>
+      </div>
+      <div class="dash-card">
+        <div class="lbl">ความคืบหน้ารวม</div>
+        <div class="val">${opct}%</div>
+        <div class="sub">${totalDone} / ${totalAll} รายการ</div>
+      </div>
+      <div class="dash-card g1">
+        <div class="lbl">${GROUPS.g1.icon} กลุ่ม 1 — ออนไลน์/ฉ้อโกง</div>
+        <div class="val">${Math.round(groupStats.g1.d/groupStats.g1.a*100)}%</div>
+        <div class="sub">${groupStats.g1.n} เคส</div>
+      </div>
+      <div class="dash-card g2">
+        <div class="lbl">${GROUPS.g2.icon} กลุ่ม 2 — ทั่วไป</div>
+        <div class="val">${Math.round(groupStats.g2.d/groupStats.g2.a*100)}%</div>
+        <div class="sub">${groupStats.g2.n} เคส</div>
+      </div>
+      <div class="dash-card g3">
+        <div class="lbl">${GROUPS.g3.icon} กลุ่ม 3 — ร้ายแรง</div>
+        <div class="val">${Math.round(groupStats.g3.d/groupStats.g3.a*100)}%</div>
+        <div class="sub">${groupStats.g3.n} เคส</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span class="ix">📋</span>ความคืบหน้ารายเคส</h3>
+      <div class="body">
+        <div class="tbl-wrap">
+          <table class="data">
+            <thead><tr><th>รหัส</th><th>กลุ่ม</th><th>ชื่อเคส</th><th style="width:120px">ความคืบหน้า</th><th style="width:60px">%</th><th></th></tr></thead>
+            <tbody>
+              ${CASES.map(c=>{
+                const cs=getCaseState(c.id);
+                const d=cs.checks.filter(x=>x.done).length;
+                const pct=Math.round(d/STD_CHECKLIST.length*100);
+                const g=GROUPS[c.group];
+                return `<tr data-go="${c.id}" style="cursor:pointer">
+                  <td><b>${c.id}</b></td>
+                  <td><span class="tag ${c.group}">${g.icon}</span></td>
+                  <td>${escapeHTML(c.title)}</td>
+                  <td><div style="height:8px;background:var(--surface-2);border-radius:4px;border:1px solid var(--border);overflow:hidden"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#22c55e,#3b82f6)"></div></div></td>
+                  <td><b>${pct}%</b></td>
+                  <td>→</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span class="ix">⚙️</span>การจัดการข้อมูล</h3>
+      <div class="body" style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn" onclick="exportAllJSON()">📦 Export ข้อมูลทุกเคส (JSON)</button>
+        <button class="btn" onclick="importJSON()">📥 Import ข้อมูล</button>
+        <button class="btn" onclick="exportAllCSV()">📊 Export Action Log (CSV)</button>
+        <button class="btn danger" onclick="resetAll()">🗑️ ล้างข้อมูลทั้งหมด</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('content').innerHTML = html;
+  document.querySelectorAll('[data-go]').forEach(tr=>{
+    tr.onclick = ()=>{
+      currentCaseId = tr.dataset.go;
+      currentView = "case";
+      state.lastCase = currentCaseId; saveState();
+      renderSidebar(document.getElementById('search').value);
+      renderMain();
+    };
+  });
+}
+
+// ---------- ACTIONS ----------
+function resetCurrent(){
+  if(!confirm(`รีเซ็ตข้อมูลเคส ${currentCaseId} ทั้งหมด?\nข้อมูลที่แก้ไขจะหายไป`)) return;
+  delete state.cases[currentCaseId];
+  saveState();
+  getCaseState(currentCaseId);
+  renderMain();
+  renderSidebar(document.getElementById('search').value);
+  toast("รีเซ็ตเคสแล้ว");
+}
+function resetAll(){
+  if(!confirm("ล้างข้อมูลทุกเคส? การกระทำนี้ย้อนกลับไม่ได้")) return;
+  if(!confirm("ยืนยันอีกครั้ง?")) return;
+  state.cases = {};
+  saveState();
+  renderSidebar();
+  if(currentView==='dash') renderDashboard(); else renderMain();
+  toast("ล้างข้อมูลทั้งหมดแล้ว");
+}
+function exportCurrentJSON(){
+  const c = CASES.find(x=>x.id===currentCaseId);
+  const cs = getCaseState(currentCaseId);
+  const data = {meta:{id:c.id,title:c.title,group:c.group,exportedAt:new Date().toISOString()}, scenario:cs.scenario||c.scenario, checklist:STD_CHECKLIST.map((it,i)=>({...it, ...cs.checks[i]})), persons:cs.persons, channels:cs.channels, timeline:cs.timeline, evidence:cs.evidence, hypothesis:cs.hypothesis, actions:cs.actions, report:cs.report};
+  download(`${c.id}_${c.title}.json`, JSON.stringify(data,null,2), 'application/json');
+  toast("ส่งออก JSON สำเร็จ");
+}
+function exportAllJSON(){
+  const out = {exportedAt:new Date().toISOString(), cases:{}};
+  CASES.forEach(c=>{
+    const cs = getCaseState(c.id);
+    out.cases[c.id] = {title:c.title, group:c.group, ...cs};
+  });
+  download(`acsc_all_cases_${Date.now()}.json`, JSON.stringify(out,null,2), 'application/json');
+  toast("ส่งออกทุกเคสสำเร็จ");
+}
+function exportAllCSV(){
+  const lines = ["Case,Title,Task,Owner,Priority,Status,Note"];
+  CASES.forEach(c=>{
+    const cs = getCaseState(c.id);
+    cs.actions.forEach(a=>{
+      const row = [c.id, c.title, ...a].map(x=>`"${String(x||"").replace(/"/g,'""')}"`).join(',');
+      lines.push(row);
+    });
+  });
+  download(`acsc_actions_${Date.now()}.csv`, "\uFEFF"+lines.join("\n"), 'text/csv');
+  toast("ส่งออก CSV สำเร็จ");
+}
+function importJSON(){
+  document.getElementById('fileInput').click();
+}
+document.getElementById('fileInput').onchange = (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+      if(data.cases){
+        // multi-case
+        Object.keys(data.cases).forEach(id=>{
+          const d = data.cases[id];
+          state.cases[id] = {checks:d.checks||STD_CHECKLIST.map(()=>({done:false,note:""})), persons:d.persons||[], channels:d.channels||[], timeline:d.timeline||[], evidence:d.evidence||[], hypothesis:d.hypothesis||[], actions:d.actions||[], report:d.report||"", scenario:d.scenario||""};
+        });
+        toast(`นำเข้า ${Object.keys(data.cases).length} เคส`);
+      } else if(data.meta && data.meta.id){
+        const id=data.meta.id;
+        state.cases[id] = {checks:(data.checklist||[]).map(x=>({done:!!x.done, note:x.note||""})), persons:data.persons||[], channels:data.channels||[], timeline:data.timeline||[], evidence:data.evidence||[], hypothesis:data.hypothesis||[], actions:data.actions||[], report:data.report||"", scenario:data.scenario||""};
+        currentCaseId = id; currentView="case";
+        toast(`นำเข้าเคส ${id}`);
+      }
+      saveState();
+      renderSidebar(document.getElementById('search').value);
+      renderMain();
+    }catch(err){ toast("ไฟล์ไม่ถูกต้อง"); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+};
+function download(name, content, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+// ---------- INIT ----------
+document.getElementById('search').oninput = (e)=>renderSidebar(e.target.value);
+document.getElementById('dashLink').onclick = (e)=>{
+  e.preventDefault();
+  currentView = "dash";
+  renderSidebar(document.getElementById('search').value);
+  document.querySelectorAll('.case-item').forEach(el=>el.classList.remove('active'));
+  renderDashboard();
+};
+
+applyTheme();
+renderSidebar();
+renderMain();
+
+// keyboard shortcut: ESC to close mobile sidebar
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape') document.getElementById('sidebar').classList.remove('open');
+  if((e.ctrlKey||e.metaKey) && e.key==='p'){ /* let browser handle print */ }
+  if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); document.getElementById('search').focus(); }
+});
+</script>
+</body>
+</html>

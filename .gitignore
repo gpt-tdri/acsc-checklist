@@ -1,0 +1,28 @@
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# OS junk
+desktop.ini
+
+# ไฟล์อื่นๆ ในโฟลเดอร์ที่ไม่เกี่ยวกับโปรเจกต์นี้
+admin-dashboard.html
+brew-and-bloom.html
+sale-page.html
+whack-a-mole.html
+prompt.txt
